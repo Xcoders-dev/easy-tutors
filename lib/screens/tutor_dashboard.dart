@@ -1,3 +1,5 @@
+import 'package:easy_tutor/screens/about_developer.dart';
+import 'package:easy_tutor/screens/confirmed_jobs.dart';
 import 'package:easy_tutor/screens/jobBoard.dart';
 import 'package:easy_tutor/screens/tutionApplied.dart';
 import 'package:easy_tutor/screens/tutorLoginScreen.dart';
@@ -97,7 +99,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                 buildListTiledrawer(
                     "Job Board", Icons.group_add_sharp, context, 2),
                 buildListTiledrawer(
-                    "Edit Profile", Icons.edit_sharp, context, 3),
+                    "View Profile", Icons.edit_sharp, context, 3),
                 buildListTiledrawer(
                     "About", Icons.info_outline_rounded, context, 4),
                 FractionallySizedBox(
@@ -126,25 +128,26 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(6.0),
+                  padding: EdgeInsets.all(10.0),
                   alignment: Alignment.topCenter,
                   child: Text(
                     "Dashboard",
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 35,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 SizedBox(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Container(
+                        width: 100,
                         padding: EdgeInsets.all(6.0),
                         child: TextButton(
                             child: Text("Applied".toUpperCase(),
-                                style: TextStyle(fontSize: 8)),
+                                style: TextStyle(fontSize: 12)),
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.blue[50]),
@@ -169,35 +172,38 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                             }),
                       ),
                       Container(
+                        width: 100,
                         padding: EdgeInsets.all(6.0),
                         child: TextButton(
                             child: Text("Confirmed".toUpperCase(),
-                                style: TextStyle(fontSize: 8)),
+                                style: TextStyle(fontSize: 12)),
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all(Colors.blue[50]),
                                 padding: MaterialStateProperty.all<EdgeInsets>(
                                     EdgeInsets.all(0)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
+                                foregroundColor: MaterialStateProperty.all<Color>(
+                                    Colors.blue),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(18.0),
                                         side: BorderSide(color: Colors.blue)))),
-                            onPressed: () => null),
+                            onPressed: () => Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Confirmed_jobs()))),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  child: Text(
-                    "NoticeBoard",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    child: Text(
+                      "NoticeBoard",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -205,7 +211,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                   padding: EdgeInsets.all(6.0),
                   child: Card(
                     child: SizedBox(
-                      height: 120,
+                      height: 180,
                       child: Column(
                         children: [
                           ListTile(
@@ -223,6 +229,13 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                               child: Text('New jobs are posted'),
                             ),
                           ),
+                          ListTile(
+                            leading: Icon(Icons.message),
+                            title: Transform.translate(
+                              offset: Offset(-16, 0),
+                              child: Text('Hamida rated you'),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -230,6 +243,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                 ),
                 Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       buildCardDashboard(
                           Icons.thumb_up, "1005", "Total Applied"),
@@ -239,6 +253,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                 ),
                 Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       buildCardDashboard(Icons.person_outline_outlined, "10",
                           "Happy Students"),
@@ -296,6 +311,18 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => JobBoardScreen()),
+            );
+          }
+          if (num == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => tutorProfile()),
+            );
+          }
+          if (num == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutDeveloper()),
             );
           }
         });

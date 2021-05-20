@@ -1,3 +1,4 @@
+import 'package:easy_tutor/screens/tutor_profile_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -98,7 +99,8 @@ class _tutorProfileState extends State<tutorProfile> {
                         padding: const EdgeInsets.all(15.0),
                         child: Text(
                           "About Me",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                       Text(
@@ -116,7 +118,8 @@ class _tutorProfileState extends State<tutorProfile> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "Availablity",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                       ),
                       Column(
@@ -138,6 +141,23 @@ class _tutorProfileState extends State<tutorProfile> {
                     ],
                   ),
                 ),
+              ),
+              FractionallySizedBox(
+                widthFactor: 0.4,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    onPrimary: Colors.white,
+                    onSurface: Colors.grey,
+                    shape: const BeveledRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                  ),
+                  child: Text('Edit Profile'),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditTutorProfile())),
+                ),
               )
             ],
           ),
@@ -148,18 +168,23 @@ class _tutorProfileState extends State<tutorProfile> {
 
   Container availablity(lead, trail) {
     return Container(
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(lead),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(trail),
-          )
-        ],
-      ),
-    );
+        child: ListTile(
+      leading: Icon(Icons.adjust_sharp),
+      title: Text(lead),
+      trailing: Text(trail),
+    )
+        // Row(
+        //   children: [
+        //     Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: Text(lead),
+        //     ),
+        //     Padding(
+        //       padding: const EdgeInsets.all(8.0),
+        //       child: Text(trail),
+        //     )
+        //   ],
+        // ),
+        );
   }
 }

@@ -1,5 +1,9 @@
+import 'package:easy_tutor/screens/Tutor_request.dart';
+import 'package:easy_tutor/screens/about_developer.dart';
 import 'package:easy_tutor/screens/appointTutor.dart';
+import 'package:easy_tutor/screens/confirmed_tutor_request.dart';
 import 'package:easy_tutor/screens/guardianLoginScreen.dart';
+import 'package:easy_tutor/screens/student_profile.dart';
 import 'package:easy_tutor/screens/tutor_dashboard.dart';
 import 'package:easy_tutor/screens/tutor_profile.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +104,7 @@ class _user_dashboardState extends State<user_dashboard> {
                   "Notification", Icons.notifications, context, 1),
               buildListTiledrawer(
                   "Tutor Request", Icons.group_add_sharp, context, 2),
-              buildListTiledrawer("Edit Profile", Icons.edit_sharp, context, 3),
+              buildListTiledrawer("View Profile", Icons.edit_sharp, context, 3),
               buildListTiledrawer(
                   "About", Icons.info_outline_rounded, context, 4),
               buildListTiledrawer(
@@ -129,6 +133,8 @@ class _user_dashboardState extends State<user_dashboard> {
       body: SingleChildScrollView(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 padding: EdgeInsets.all(6.0),
@@ -136,39 +142,21 @@ class _user_dashboardState extends State<user_dashboard> {
                 child: Text(
                   "Dashboard",
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               SizedBox(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(6.0),
-                      child: TextButton(
-                          child: Text("Pending".toUpperCase(),
-                              style: TextStyle(fontSize: 8)),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue[50]),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.all(0)),
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.blue),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.blue)))),
-                          onPressed: () => null),
-                    ),
-                    Container(
+                      width: 100,
                       padding: EdgeInsets.all(6.0),
                       child: TextButton(
                           child: Text("Appoint".toUpperCase(),
-                              style: TextStyle(fontSize: 8)),
+                              style: TextStyle(fontSize: 12)),
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.blue[50]),
@@ -190,11 +178,12 @@ class _user_dashboardState extends State<user_dashboard> {
                           }),
                     ),
                     Container(
+                      width: 100,
                       padding: EdgeInsets.all(6.0),
                       child: TextButton(
                           child: Text("Confirmed".toUpperCase(),
                               style: TextStyle(
-                                fontSize: 8,
+                                fontSize: 12,
                               )),
                           style: ButtonStyle(
                               backgroundColor:
@@ -209,17 +198,24 @@ class _user_dashboardState extends State<user_dashboard> {
                                 borderRadius: BorderRadius.circular(18.0),
                                 side: BorderSide(color: Colors.blue),
                               ))),
-                          onPressed: () => null),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Confiremd_tutor_request()))),
                     ),
                   ],
                 ),
               ),
-              Container(
-                child: Text(
-                  "NoticeBoard",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Container(
+                  child: Text(
+                    "NoticeBoard",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -227,7 +223,7 @@ class _user_dashboardState extends State<user_dashboard> {
                 padding: EdgeInsets.all(6.0),
                 child: Card(
                   child: SizedBox(
-                    height: 120,
+                    height: 180,
                     child: Column(
                       children: [
                         ListTile(
@@ -244,6 +240,13 @@ class _user_dashboardState extends State<user_dashboard> {
                             child: Text('Ayman wants to join'),
                           ),
                         ),
+                        ListTile(
+                          leading: Icon(Icons.message),
+                          title: Transform.translate(
+                            offset: Offset(-16, 0),
+                            child: Text('Azman Liked you'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -251,6 +254,7 @@ class _user_dashboardState extends State<user_dashboard> {
               ),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     buildCardDashboard(Icons.thumb_up, "1005", "Total Applied"),
                     buildCardDashboard(Icons.work, "2", "Live Tution Jobs"),
@@ -259,6 +263,7 @@ class _user_dashboardState extends State<user_dashboard> {
               ),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     buildCardDashboard(
                         Icons.person_outline_outlined, "10", "Happy Students"),
@@ -305,10 +310,24 @@ class _user_dashboardState extends State<user_dashboard> {
         leading: Icon(icon),
         title: Text(text),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => tutorProfile()),
-          );
+          if (num == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => tutor_request()),
+            );
+          }
+          if (num == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => StudentProfile()),
+            );
+          }
+          if (num == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutDeveloper()),
+            );
+          }
         });
   }
 }
