@@ -1,4 +1,5 @@
 import 'package:easy_tutor/screens/Tutor_request.dart';
+import 'package:easy_tutor/screens/about_1.dart';
 import 'package:easy_tutor/screens/about_developer.dart';
 import 'package:easy_tutor/screens/appointTutor.dart';
 import 'package:easy_tutor/screens/confirmed_tutor_request.dart';
@@ -323,6 +324,12 @@ class _user_dashboardState extends State<user_dashboard> {
             );
           }
           if (num == 4) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => About()),
+            );
+          }
+          if (num == 5) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AboutDeveloper()),

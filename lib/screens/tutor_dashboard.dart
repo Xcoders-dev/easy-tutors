@@ -1,3 +1,4 @@
+import 'package:easy_tutor/screens/about_1.dart';
 import 'package:easy_tutor/screens/about_developer.dart';
 import 'package:easy_tutor/screens/confirmed_jobs.dart';
 import 'package:easy_tutor/screens/jobBoard.dart';
@@ -322,7 +323,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
           if (num == 4) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AboutDeveloper()),
+              MaterialPageRoute(builder: (context) => About()),
             );
           }
         });
