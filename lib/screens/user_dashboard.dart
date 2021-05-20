@@ -108,8 +108,7 @@ class _user_dashboardState extends State<user_dashboard> {
               buildListTiledrawer("View Profile", Icons.edit_sharp, context, 3),
               buildListTiledrawer(
                   "About", Icons.info_outline_rounded, context, 4),
-              buildListTiledrawer(
-                  "Important Notes", Icons.info_outline_rounded, context, 5),
+              
               FractionallySizedBox(
                 widthFactor: 0.4,
                 child: ElevatedButton(
