@@ -157,7 +157,7 @@ class GuardianRegistrationScreen extends StatelessWidget {
                         onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => TutorLoginScreen())))
+                                builder: (context) => GuardianLoginScreen())))
                   ],
                 ),
               ),
