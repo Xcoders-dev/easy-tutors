@@ -104,7 +104,7 @@ Widget sadman = Card(
         ),
         SizedBox(height: 6),
         Text(
-          "Age : 22  |  Gender : Male  |  Location : Dhaka",
+          "Age : 22  |  Gender : Obscure  |  Location : Dhaka",
           style: TextStyle(
             fontSize: 15,
             color: Colors.blueGrey[800],
