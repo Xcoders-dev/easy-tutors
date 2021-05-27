@@ -65,20 +65,6 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                                   )),
                             ),
                           ),
-                          SizedBox(
-                            height: 45,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Icon(Icons.rate_review_outlined,
-                                    color: Color.fromRGBO(230, 92, 0, 100)),
-                                title: Transform.translate(
-                                  offset: Offset(-16, 0),
-                                  child: Text('4.75/5'),
-                                ),
-                              ),
-                            ),
-                          ),
                           Column(
                             children: [
                               SizedBox(
@@ -249,7 +235,6 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                           availablity("Expected Salary:*"),
                           availablity("Location:*"),
                           availablity("Prefered Location:*"),
-                          availablity("Tution Method:*"),
                         ],
                       ),
                     ],
