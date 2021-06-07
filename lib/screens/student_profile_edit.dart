@@ -69,9 +69,38 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextField(
                             keyboardType: TextInputType.name,
+                            
                             decoration: InputDecoration(
                               icon: Icon(Icons.person_pin_outlined),
-                              labelText: "Full Name:*",
+                              labelText: "First Name:*",
+                              labelStyle: TextStyle(
+                                  fontSize: 12.0, fontWeight: FontWeight.bold),
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                            style: TextStyle(fontSize: 13.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 1.0,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            keyboardType: TextInputType.name,
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.person_pin_outlined),
+                              labelText: "Last Name:*",
                               labelStyle: TextStyle(
                                   fontSize: 12.0, fontWeight: FontWeight.bold),
                               hintStyle: TextStyle(

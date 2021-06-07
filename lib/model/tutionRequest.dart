@@ -12,21 +12,21 @@ class TutionRequest{
   String studentEmail;
 
   bool statusStudent;
-  bool statusTutor;
+  
   
 
   TutionRequest(
     [this.category, this.daysWeekly, this.city,
     this.subject, this.studentClass, this.time, this.salary,
-    this.tutorEmail, this.studentEmail, this.statusStudent, this.statusTutor]
+    this.tutorEmail, this.studentEmail, this.statusStudent,]
    );
 
   TutionRequest.copy(TutionRequest from): this(from.category, from.daysWeekly,
    from.city, from.subject, from.studentClass, from.time, from.salary,
-   from.tutorEmail, from.studentEmail, from.statusStudent, from.statusTutor);
+   from.tutorEmail, from.studentEmail, from.statusStudent,);
    
 
-  //  setTutionRequest(String id, String cat, String days, String _city, String sub,String studClass, String _time, String sal ){
+  //  setTutionRequest(String id, String cat, String days, String _city, Str         ing sub,String studClass, String _time, String sal ){
   //     requestID = id;
   //     category = cat;
   //     daysWeekly = days;

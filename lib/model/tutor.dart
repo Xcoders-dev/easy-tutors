@@ -8,12 +8,12 @@ class Tutor {
   String password;
   String phoneNo;
   String gender;
-  String location;
+  String prefCity;
+  String expectedSal; 
+  String aboutMe;
   String availTimeFrom;
   String availTimeTo;
-  String prefCity;
-  String expectedSal;
-  String aboutMe;
+  String location;
 
   //TutionRequest request;
 
