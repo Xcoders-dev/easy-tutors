@@ -1,10 +1,34 @@
+import 'package:easy_tutor/modules/http.dart';
 import 'package:easy_tutor/screens/tutor_dashboard.dart';
 import 'package:flutter/material.dart';
 
 import 'tutorRegistrationScreen.dart';
 
-class TutorLoginScreen extends StatelessWidget {
+class TutorLoginScreen extends StatefulWidget {
+
+  @override
+  TutorLoginScreenState createState() => TutorLoginScreenState();
+}
+
+class TutorLoginScreenState extends State<TutorLoginScreen> {
   static const String idScreen = "loginTutor";
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
+
+  String response = "";
+
+  LoginUser() async {
+    var result = await http_post("login-user", {
+      "email": emailController.text,
+      "password": pwdController.text,
+    });
+    if(result != null)
+    {
+      setState(() {
+        response = result.data['status'];
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +67,7 @@ class TutorLoginScreen extends StatelessWidget {
                       height: 1.0,
                     ),
                     TextField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "Email",
@@ -62,6 +87,7 @@ class TutorLoginScreen extends StatelessWidget {
                       height: 1.0,
                     ),
                     TextField(
+                      controller: pwdController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Password",
@@ -97,10 +123,7 @@ class TutorLoginScreen extends StatelessWidget {
                         shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(23.0),
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => tutor_dashboard())))
+                        onPressed: LoginUser,),
                   ],
                 ),
               ),
