@@ -67,6 +67,17 @@ class _StudentProfileState extends State<StudentProfile> {
                   SizedBox(
                     height: 50,
                     child: ListTile(
+                      leading: Icon(Icons.rate_review_outlined,
+                          color: Color.fromRGBO(230, 92, 0, 100)),
+                      title: Transform.translate(
+                        offset: Offset(-16, 0),
+                        child: Text('4.75/5'),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: ListTile(
                       leading: Icon(Icons.phone_callback_outlined,
                           color: Color.fromRGBO(230, 92, 0, 100)),
                       title: Transform.translate(

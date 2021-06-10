@@ -72,6 +72,17 @@ class _tutorProfileState extends State<tutorProfile> {
                                   child: Text('ID:0531568'),
                                 )),
                           ),
+                          SizedBox(
+                            height: 30,
+                            child: ListTile(
+                              leading: Icon(Icons.rate_review_outlined,
+                                  color: Color.fromRGBO(230, 92, 0, 100)),
+                              title: Transform.translate(
+                                offset: Offset(-16, 0),
+                                child: Text('4.75/5'),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],

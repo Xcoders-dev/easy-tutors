@@ -1,4 +1,4 @@
-//import 'package:easy_tutor/screens/tutorLoginScreen.dart';
+import 'package:easy_tutor/screens/tutorLoginScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'guardianLoginScreen.dart';
@@ -43,27 +43,9 @@ class GuardianRegistrationScreen extends StatelessWidget {
                       height: 0.50,
                     ),
                     TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        labelText: "First Name",
-                        labelStyle: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: "Brand Bold",
-                        ),
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 10.0,
-                        ),
-                      ),
-                      style: TextStyle(fontSize: 14.0),
-                    ),
-                    SizedBox(
-                      height: 0.50,
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        labelText: "Last Name",
+                        labelText: "Name",
                         labelStyle: TextStyle(
                           fontSize: 14.0,
                           fontFamily: "Brand Bold",
