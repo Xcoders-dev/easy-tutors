@@ -57,19 +57,34 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                           )),
                     ),
                   ),
-                  SizedBox(
-                    height: 45,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        leading: Icon(Icons.rate_review_outlined,
-                            color: Color.fromRGBO(230, 92, 0, 100)),
-                        title: Transform.translate(
-                          offset: Offset(-16, 0),
-                          child: Text('4.75/5'),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 1.0,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            keyboardType: TextInputType.name,
+                            
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.person_pin_outlined),
+                              labelText: "First Name:*",
+                              labelStyle: TextStyle(
+                                  fontSize: 12.0, fontWeight: FontWeight.bold),
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 10.0,
+                              ),
+                            ),
+                            style: TextStyle(fontSize: 13.0),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   Column(
                     children: [
@@ -85,7 +100,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                             keyboardType: TextInputType.name,
                             decoration: InputDecoration(
                               icon: Icon(Icons.person_pin_outlined),
-                              labelText: "Full Name:*",
+                              labelText: "Last Name:*",
                               labelStyle: TextStyle(
                                   fontSize: 12.0, fontWeight: FontWeight.bold),
                               hintStyle: TextStyle(
