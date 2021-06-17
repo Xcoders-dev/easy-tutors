@@ -1,8 +1,12 @@
+import 'package:easy_tutor/model/student.dart';
 import 'package:easy_tutor/screens/tutor_profile.dart';
 import 'package:flutter/material.dart';
 
 class AppointTutor extends StatefulWidget {
   @override
+final List <Student> student;
+  AppointTutor([this.student]);
+
   _AppointTutorState createState() => _AppointTutorState();
 }
 

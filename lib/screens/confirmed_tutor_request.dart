@@ -1,7 +1,10 @@
+import 'package:easy_tutor/model/student.dart';
 import 'package:flutter/material.dart';
 
 class Confiremd_tutor_request extends StatefulWidget {
   @override
+  final List <Student> student;
+  Confiremd_tutor_request([this.student]);
   _Confiremd_tutor_requestState createState() => _Confiremd_tutor_requestState();
 }
 

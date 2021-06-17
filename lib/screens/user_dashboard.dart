@@ -1,3 +1,4 @@
+import 'package:easy_tutor/model/student.dart';
 import 'package:easy_tutor/screens/Tutor_request.dart';
 import 'package:easy_tutor/screens/about_1.dart';
 import 'package:easy_tutor/screens/about_developer.dart';
@@ -5,12 +6,16 @@ import 'package:easy_tutor/screens/appointTutor.dart';
 import 'package:easy_tutor/screens/confirmed_tutor_request.dart';
 import 'package:easy_tutor/screens/guardianLoginScreen.dart';
 import 'package:easy_tutor/screens/student_profile.dart';
+import 'package:easy_tutor/screens/student_profile_edit.dart';
 import 'package:easy_tutor/screens/tutor_dashboard.dart';
 import 'package:easy_tutor/screens/tutor_profile.dart';
 import 'package:flutter/material.dart';
 
 class user_dashboard extends StatefulWidget {
   @override
+  final List <Student> student;
+  user_dashboard([this.student]);
+
   _user_dashboardState createState() => _user_dashboardState();
 }
 
@@ -70,7 +75,7 @@ class _user_dashboardState extends State<user_dashboard> {
                             child: ListTile(
                               leading: Icon(Icons.person_pin_outlined),
                               title: Align(
-                                child: new Text("  Nur Fatima"),
+                                child: new Text(" ${widget.student[0].firstName} ${widget.student[0].lastName}"),
                                 alignment: Alignment(-1.5, 0),
                               ),
                             ),
@@ -80,18 +85,8 @@ class _user_dashboardState extends State<user_dashboard> {
                             child: ListTile(
                               leading: Icon(Icons.email_outlined),
                               title: Align(
-                                child: new Text("Nurfatima@gmail.com"),
+                                child: new Text("  ${widget.student[0].email}"),
                                 alignment: Alignment(-1.95, 0),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 30,
-                            child: ListTile(
-                              leading: Icon(Icons.pageview_rounded),
-                              title: Align(
-                                child: new Text("  ID:0531568"),
-                                alignment: Alignment(-1.5, 0),
                               ),
                             ),
                           ),
@@ -106,8 +101,9 @@ class _user_dashboardState extends State<user_dashboard> {
               buildListTiledrawer(
                   "Tutor Request", Icons.group_add_sharp, context, 2),
               buildListTiledrawer("View Profile", Icons.edit_sharp, context, 3),
+              buildListTiledrawer("Edit Profile", Icons.edit_sharp, context, 4),
               buildListTiledrawer(
-                  "About", Icons.info_outline_rounded, context, 4),
+                  "About", Icons.info_outline_rounded, context, 5),
               
               FractionallySizedBox(
                 widthFactor: 0.4,
@@ -173,7 +169,7 @@ class _user_dashboardState extends State<user_dashboard> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AppointTutor()),
+                                  builder: (context) => AppointTutor(widget.student)),
                             );
                           }),
                     ),
@@ -202,7 +198,7 @@ class _user_dashboardState extends State<user_dashboard> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      Confiremd_tutor_request()))),
+                                      Confiremd_tutor_request(widget.student)))),
                     ),
                   ],
                 ),
@@ -313,19 +309,19 @@ class _user_dashboardState extends State<user_dashboard> {
           if (num == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => tutor_request()),
+              MaterialPageRoute(builder: (context) => tutor_request(widget.student)),
             );
           }
           if (num == 3) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => StudentProfile()),
+              MaterialPageRoute(builder: (context) => StudentProfile(widget.student)),
             );
           }
           if (num == 4) {
-            Navigator.push(
+           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => About()),
+              MaterialPageRoute(builder: (context) => EditStudentProfile(widget.student)),
             );
           }
           if (num == 5) {

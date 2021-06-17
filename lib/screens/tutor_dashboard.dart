@@ -1,3 +1,4 @@
+import 'package:easy_tutor/model/tutor.dart';
 import 'package:easy_tutor/screens/about_1.dart';
 import 'package:easy_tutor/screens/about_developer.dart';
 import 'package:easy_tutor/screens/confirmed_jobs.dart';
@@ -5,10 +6,13 @@ import 'package:easy_tutor/screens/jobBoard.dart';
 import 'package:easy_tutor/screens/tutionApplied.dart';
 import 'package:easy_tutor/screens/tutorLoginScreen.dart';
 import 'package:easy_tutor/screens/tutor_profile.dart';
+import 'package:easy_tutor/screens/tutor_profile_edit.dart';
 import 'package:easy_tutor/screens/user_dashboard.dart';
 import 'package:flutter/material.dart';
 
 class tutor_dashboard extends StatefulWidget {
+  List <Tutor> tutor;
+  tutor_dashboard([this.tutor]);
   @override
   _tutor_dashboardState createState() => _tutor_dashboardState();
 }
@@ -16,6 +20,7 @@ class tutor_dashboard extends StatefulWidget {
 class _tutor_dashboardState extends State<tutor_dashboard> {
   @override
   Widget build(BuildContext context) {
+    print(widget.tutor[0].email);
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.blue[50],
@@ -36,7 +41,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
               padding: EdgeInsets.all(1),
               children: <Widget>[
                 Container(
-                  height: 250,
+                  height: 220,
                   child: DrawerHeader(
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
@@ -64,7 +69,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                               child: ListTile(
                                 leading: Icon(Icons.person_pin_outlined),
                                 title: Align(
-                                  child: new Text("  Nur Fatima"),
+                                  child: new Text(" ${widget.tutor[0].firstName} ${widget.tutor[0].lastName}"),
                                   alignment: Alignment(-1.5, 0),
                                 ),
                               ),
@@ -74,18 +79,8 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                               child: ListTile(
                                 leading: Icon(Icons.email_outlined),
                                 title: Align(
-                                  child: new Text("Nurfatima@gmail.com"),
+                                  child: new Text("         ${widget.tutor[0].email}"),
                                   alignment: Alignment(-1.95, 0),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                              child: ListTile(
-                                leading: Icon(Icons.pageview_rounded),
-                                title: Align(
-                                  child: new Text("  ID:0531568"),
-                                  alignment: Alignment(-1.5, 0),
                                 ),
                               ),
                             ),
@@ -102,7 +97,9 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                 buildListTiledrawer(
                     "View Profile", Icons.edit_sharp, context, 3),
                 buildListTiledrawer(
-                    "About", Icons.info_outline_rounded, context, 4),
+                    "Edit Profile", Icons.edit_sharp, context, 4),
+                buildListTiledrawer(
+                    "About", Icons.info_outline_rounded, context, 5),
                 FractionallySizedBox(
                   widthFactor: 0.4,
                   child: ElevatedButton(
@@ -168,7 +165,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        TutionAppliedScreen()),
+                                        TutionAppliedScreen(widget.tutor)),
                               );
                             }),
                       ),
@@ -191,7 +188,7 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
                                             BorderRadius.circular(18.0),
                                         side: BorderSide(color: Colors.blue)))),
                             onPressed: () => Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => Confirmed_jobs()))),
+                                MaterialPageRoute(builder: (context) => Confirmed_jobs(widget.tutor)))),
                       ),
                     ],
                   ),
@@ -311,19 +308,25 @@ class _tutor_dashboardState extends State<tutor_dashboard> {
           if (num == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => JobBoardScreen()),
+              MaterialPageRoute(builder: (context) => JobBoardScreen(widget.tutor)),
             );
           }
           if (num == 3) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => tutorProfile()),
+              MaterialPageRoute(builder: (context) => tutorProfile(widget.tutor)),
             );
           }
           if (num == 4) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => About()),
+              MaterialPageRoute(builder: (context) => EditTutorProfile()),
+            );
+          }
+          if (num == 5) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutDeveloper()),
             );
           }
         });

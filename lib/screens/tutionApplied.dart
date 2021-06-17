@@ -1,6 +1,9 @@
+import 'package:easy_tutor/model/tutor.dart';
 import 'package:flutter/material.dart';
 
 class TutionAppliedScreen extends StatefulWidget {
+  List <Tutor> tutor;
+  TutionAppliedScreen([this.tutor]);
   @override
   _TutionAppliedScreenState createState() => _TutionAppliedScreenState();
 }
@@ -8,6 +11,7 @@ class TutionAppliedScreen extends StatefulWidget {
 class _TutionAppliedScreenState extends State<TutionAppliedScreen> {
   @override
   Widget build(BuildContext context) {
+    print(widget.tutor[0].email);
     return Scaffold(
       appBar: AppBar(
         title: Column(

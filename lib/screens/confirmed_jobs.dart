@@ -1,6 +1,9 @@
+import 'package:easy_tutor/model/tutor.dart';
 import 'package:flutter/material.dart';
 
 class Confirmed_jobs extends StatefulWidget {
+  List <Tutor> tutor;
+  Confirmed_jobs([this.tutor]);
   @override
   _Confirmed_jobsState createState() => _Confirmed_jobsState();
 }
@@ -8,6 +11,7 @@ class Confirmed_jobs extends StatefulWidget {
 class _Confirmed_jobsState extends State<Confirmed_jobs> {
   @override
   Widget build(BuildContext context) {
+    print(widget.tutor[0].email);
     return Scaffold(
       appBar: AppBar(
         title: Column(

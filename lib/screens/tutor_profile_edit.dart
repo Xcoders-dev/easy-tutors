@@ -1,14 +1,67 @@
+import 'package:easy_tutor/model/tutor.dart';
+import 'package:easy_tutor/modules/http.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'package:flutter/services.dart';
 
 class EditTutorProfile extends StatefulWidget {
-  EditTutorProfile({Key key}) : super(key: key);
+  final List<Tutor> tutor;
+
+  const EditTutorProfile({this.tutor});
 
   @override
-  _EditTutorProfileState createState() => _EditTutorProfileState();
+  State<StatefulWidget> createState() {
+    return _EditTutorProfileState();
+  }
 }
 
 class _EditTutorProfileState extends State<EditTutorProfile> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController FNameController = TextEditingController();
+  TextEditingController LNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController pref_cityController = TextEditingController();
+  TextEditingController expected_SalController = TextEditingController();
+  TextEditingController about_meController = TextEditingController();
+  TextEditingController avail_time_fromController = TextEditingController();
+  TextEditingController avail_time_toController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController salarytoController = TextEditingController();
+  TextEditingController prefController = TextEditingController();
+
+  String response_err = "";
+  String response_success = "";
+
+  editTutor() async {
+    var result = await http_post("update-tutor", {
+      "FName": FNameController.text,
+      "LName": LNameController.text,
+      "email": widget.tutor[0].email, // need to change
+      "password": passwordController.text,
+      "phone_Num": phoneController.text,
+      "pref_city": pref_cityController.text,
+      "expected_Sal": salarytoController.text,
+      "about_me": about_meController.text,
+      "avail_time_from": avail_time_fromController.text,
+      "avail_time_to": avail_time_toController.text,
+      "gender": "undefined"
+    });
+    if (result.data['confirm'] != null) {
+      setState(() {
+        response_success = result.data['confirm'];
+      });
+    }
+    if (result.data['status'] != null) {
+      setState(() {
+        print("setstate called");
+        response_err = result.data['status'];
+      });
+    }
+    //print(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +85,10 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://googleflutter.com/sample_image.jpg'),
-                              fit: BoxFit.fill),
+                          // image: DecorationImage(
+                          //     // image: NetworkImage(
+                          //     //     'https://googleflutter.com/sample_image.jpg'),
+                          //     fit: BoxFit.fill),
                         ),
                       ),
                       Container(
@@ -65,20 +118,6 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                                   )),
                             ),
                           ),
-                          SizedBox(
-                            height: 45,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                leading: Icon(Icons.rate_review_outlined,
-                                    color: Color.fromRGBO(230, 92, 0, 100)),
-                                title: Transform.translate(
-                                  offset: Offset(-16, 0),
-                                  child: Text('4.75/5'),
-                                ),
-                              ),
-                            ),
-                          ),
                           Column(
                             children: [
                               SizedBox(
@@ -90,10 +129,11 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
+                                    controller: FNameController,
                                     keyboardType: TextInputType.name,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.person_pin_outlined),
-                                      labelText: "Full Name:*",
+                                      labelText: "First Name:*",
                                       labelStyle: TextStyle(
                                           fontSize: 12.0,
                                           fontWeight: FontWeight.bold),
@@ -119,6 +159,37 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
+                                    controller: LNameController,
+                                    keyboardType: TextInputType.name,
+                                    decoration: InputDecoration(
+                                      icon: Icon(Icons.person_pin_outlined),
+                                      labelText: "Last Name:*",
+                                      labelStyle: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 10.0,
+                                      ),
+                                    ),
+                                    style: TextStyle(fontSize: 13.0),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 1.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    15.0, 0.0, 15.0, 0.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    controller: emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.email_outlined),
@@ -149,6 +220,7 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
+                                    controller: phoneController,
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                       icon: Icon(Icons.phone_callback_outlined),
@@ -206,6 +278,7 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                         padding:
                             const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                         child: TextField(
+                          controller: about_meController,
                           keyboardType: TextInputType.multiline,
                           maxLines: 5,
                           decoration: InputDecoration(
@@ -243,15 +316,38 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
                       ),
                       Column(
                         children: [
-                          availablity("Avilable Day:*"),
-                          availablity("Avilable Time From:*"),
-                          availablity("Avilable Time To:*"),
-                          availablity("Expected Salary:*"),
-                          availablity("Location:*"),
-                          availablity("Prefered Location:*"),
-                          availablity("Tution Method:*"),
+                          availablity("Avilable Time From:*",
+                              avail_time_fromController),
+                          availablity(
+                              "Avilable Time To:*", avail_time_toController),
+                          availablity("Expected Salary:*", salarytoController),
+                          availablity("Location:*", locationController),
+                          availablity("Prefered Location:*", prefController),
                         ],
                       ),
+                      SizedBox(
+                        height: 25.0,
+                      ),
+                      // ignore: deprecated_member_use
+                      RaisedButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          child: Container(
+                            height: 50.0,
+                            child: Center(
+                              child: Text(
+                                "Create Account",
+                                style: TextStyle(
+                                    fontSize: 18.0, fontFamily: "Brand Bold"),
+                              ),
+                            ),
+                          ),
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(23.0),
+                          ),
+                          onPressed: () => {
+                                editTutor(),
+                              }),
                     ],
                   ),
                 ),
@@ -263,7 +359,7 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
     );
   }
 
-  Container availablity(lead) {
+  Container availablity(lead, controller) {
     return Container(
       child: Column(
         children: [
@@ -273,6 +369,7 @@ class _EditTutorProfileState extends State<EditTutorProfile> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             child: TextField(
+              controller: controller,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "${lead}",

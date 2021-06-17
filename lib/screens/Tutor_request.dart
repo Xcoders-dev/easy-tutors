@@ -1,6 +1,10 @@
 import 'dart:ui';
 
+import 'package:easy_tutor/model/student.dart';
+import 'package:easy_tutor/modules/http.dart';
+import 'package:easy_tutor/screens/user_dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 //! For Category sort
 class Category {
@@ -13,8 +17,8 @@ class Category {
 // list of class Category
 List<Category> categories = [
   Category('Empty', ''),
-  Category('Online', 'online'),
-  Category('Face-to-Face', 'facetoface')
+  Category('Online', 'Online'),
+  Category('Face-to-Face', 'Face-to-Face')
 ];
 
 //! For DaysPerWeek sort
@@ -28,13 +32,13 @@ class DaysPerWeek {
 // List of class DaysPerWeek
 List<DaysPerWeek> daysPerWeekList = [
   DaysPerWeek('Empty', ''),
-  DaysPerWeek('1 day', '1day'),
-  DaysPerWeek('2 days', '2days'),
-  DaysPerWeek('3 days', '3days'),
-  DaysPerWeek('4 days', '4days'),
-  DaysPerWeek('5 days', '5days'),
-  DaysPerWeek('6 days', '6days'),
-  DaysPerWeek('7 days', '7days'),
+  DaysPerWeek('1 day', '1 day'),
+  DaysPerWeek('2 days', '2 days'),
+  DaysPerWeek('3 days', '3 days'),
+  DaysPerWeek('4 days', '4 days'),
+  DaysPerWeek('5 days', '5 days'),
+  DaysPerWeek('6 days', '6 days'),
+  DaysPerWeek('7 days', '7 days'),
 ];
 
 //! For City sort
@@ -48,13 +52,13 @@ class City {
 // List of class City
 List<City> cities = [
   City('Empty', ''),
-  City('Johor Bahru', 'jb'),
-  City('Melacca City', 'mc'),
-  City('Kuala Lampur', 'kl'),
-  City('George Town', 'gt'),
-  City('Kota Kinabalu', 'kk'),
-  City('Alor Setar', 'as'),
-  City('Shah Alam', 'sa'),
+  City('Johor Bahru', 'Johor Bahru'),
+  City('Melacca City', 'Melacca City'),
+  City('Kuala Lampur', 'Kuala Lampur'),
+  City('George Town', 'George Town'),
+  City('Kota Kinabalu', 'Kota Kinabalu'),
+  City('Alor Setar', 'Alor Setar'),
+  City('Shah Alam', 'Shah Alam'),
 ];
 
 //! For Subject sort
@@ -68,14 +72,14 @@ class Subject {
 // List of class Subject
 List<Subject> subjects = [
   Subject('Empty', ''),
-  Subject('Physics', 'phy'),
-  Subject('Chemistry', 'chem'),
-  Subject('Biology', 'bio'),
-  Subject('Mathematics', 'math'),
-  Subject('Computing', 'com'),
-  Subject('Engineering', 'eng'),
-  Subject('Ielts', 'ielts'),
-  Subject('SAT', 'sat'),
+  Subject('Physics', 'Physics'),
+  Subject('Chemistry', 'Chemistry'),
+  Subject('Biology', 'Biology'),
+  Subject('Mathematics', 'Mathematics'),
+  Subject('Computing', 'Computing'),
+  Subject('Engineering', 'Engineering'),
+  Subject('Ielts', 'Ielts'),
+  Subject('SAT', 'SAT'),
 ];
 
 class Class {
@@ -88,23 +92,25 @@ class Class {
 // List of class City
 List<Class> class_level = [
   Class('Empty', ''),
-  Class('Kindergarten', 'KG'),
-  Class('Class 1', 'C1'),
-  Class('Class 2', 'C2'),
-  Class('Class 3', 'C3'),
-  Class('Class 4', 'C4'),
-  Class('Class 5', 'C5'),
-  Class('Class 6', 'C6'),
-  Class('Class 7', 'C7'),
-  Class('Class 8', 'C8'),
-  Class('Class 9', 'C9'),
-  Class('O-Level', 'O-L'),
-  Class('A-Level', 'A-L'),
-  Class('College', 'Colg'),
+  Class('Kindergarten', 'Kindergarten'),
+  Class('Class 1', 'Class 1'),
+  Class('Class 2', 'Class 2'),
+  Class('Class 3', 'Class 3'),
+  Class('Class 4', 'Class 4'),
+  Class('Class 5', 'Class 5'),
+  Class('Class 6', 'Class 6'),
+  Class('Class 7', 'Class 7'),
+  Class('Class 8', 'Class 8'),
+  Class('Class 9', 'Class 9'),
+  Class('O-Level', 'O-Level'),
+  Class('A-Level', 'A-Level'),
+  Class('College', 'College'),
 ];
 
 class tutor_request extends StatefulWidget {
   @override
+  final List <Student> student;
+  tutor_request([this.student]);
   _tutor_requestState createState() => _tutor_requestState();
 }
 
@@ -116,7 +122,14 @@ class _tutor_requestState extends State<tutor_request> {
   String cityValue = '';
   String subjectValue = '';
   String classValue = '';
+  TextEditingController salaryController = TextEditingController();
+ 
 
+ 
+  String response_success = "";
+
+ 
+  // time val
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
   void _selectTime() async {
     final TimeOfDay newTime = await showTimePicker(
@@ -129,6 +142,34 @@ class _tutor_requestState extends State<tutor_request> {
       });
     }
   }
+  String time= '3:00';
+
+   addTutorRequest() async {
+     var result = await http_post("add-tutorRequest", {
+      "category": categoryValue,
+      "daysWeekly": daysPerWeekValue,
+      "city": cityValue,
+      "subject": subjectValue,
+      "studentClass": classValue,
+      "time": time,
+      "salary": salaryController.text,
+      "studentEmail":  widget.student[0].email,
+    });
+    if(result.data['confirm'] != null) {
+      setState(() {
+        response_success = result.data['confirm'];
+      });
+    }     
+    if(response_success!=""){
+      
+      Toast.show(response_success,context,duration: 3,textColor: Colors.lightGreen);
+    Navigator.pop(context);
+    }else{
+    Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
+    }
+
+
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -327,6 +368,8 @@ class _tutor_requestState extends State<tutor_request> {
                           Container(
                               width: 300,
                               child: TextField(
+                                controller: salaryController,
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Enter Salary here',
@@ -342,7 +385,7 @@ class _tutor_requestState extends State<tutor_request> {
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: FloatingActionButton.extended(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: ()=>addTutorRequest(),
                         label: Text('Upload Request'),
                         backgroundColor: Colors.indigo,
                       ),
