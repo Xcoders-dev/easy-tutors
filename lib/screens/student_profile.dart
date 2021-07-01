@@ -1,9 +1,6 @@
 import 'package:easy_tutor/model/student.dart';
-import 'package:easy_tutor/model/tutor.dart';
 import 'package:easy_tutor/modules/http.dart';
-import 'package:easy_tutor/screens/student_profile_edit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 class StudentProfile extends StatefulWidget {
@@ -14,47 +11,42 @@ class StudentProfile extends StatefulWidget {
 }
 
 class _StudentProfileState extends State<StudentProfile> {
-  Student getStudent;
+  // List <Student> getStudentInfo = [];
 
-  Future<void> showStudent() async {
-    var result = await http_get('student-profile/${widget.student[0].email}');
-    if (result.data['student'] != null) {
-      setState(() {
-        var in_Req = result.data['student'][0];
+  // Future<void> showStudent() async {
+  //   var result = await http_post("view-student-profile",
+  //   {
+  //   "email" : widget.student[0].email,
+  //   }
+  //   );
+  //   if (result.data['student'] != null) {
+  //     setState(() {
 
-        getStudent = Student(
-          in_Req['FName'],
-          in_Req['LName'],
-          in_Req['email'],
-          in_Req['password'],
-          in_Req['P_Num'],
-        );
-        print(in_Req);
-        print(getStudent);
-      });
-      print('Data');
-    }
-  }
+  //       getStudentInfo.clear();
+  //       var in_Req = result.data['student'] as List<dynamic>;
+        
+  //       in_Req.forEach((in_Req) { 
+  //         getStudentInfo.add(Student(
+  //         in_Req['FName'],
+  //         in_Req['LName'],
+  //         in_Req['email'],
+  //         in_Req['password'],
+  //         in_Req['P_Num'],
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("initState");
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   print("WidgetsBinding");
-    // });
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      showStudent();
-    });
-  }
+  //         ));
+  //       });
+  //     });
+      
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: showStudent,
-        child: SingleChildScrollView(
+      // body: RefreshIndicator(
+        // onRefresh: showStudent,
+        // child: SingleChildScrollView(
+          body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(top: 80),
             child: Column(
@@ -67,8 +59,7 @@ class _StudentProfileState extends State<StudentProfile> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://googleflutter.com/sample_image.jpg'),
+                        image: AssetImage("images/user.png"),
                         fit: BoxFit.fill),
                   ),
                 ),
@@ -81,8 +72,8 @@ class _StudentProfileState extends State<StudentProfile> {
                           leading: Icon(Icons.person_pin_outlined),
                           title: Transform.translate(
                             offset: Offset(-16, 0),
-                            child: Text('${getStudent.firstName}'
-                                ' ${getStudent.lastName}'),
+                            child: Text('${widget.student[0].firstName}'
+                                '${widget.student[0].lastName}'),
                           )),
                     ),
                     SizedBox(
@@ -91,21 +82,11 @@ class _StudentProfileState extends State<StudentProfile> {
                         leading: Icon(Icons.email_outlined),
                         title: Transform.translate(
                           offset: Offset(-16, 0),
-                          child: Text('${getStudent.email}'),
+                          child: Text('${widget.student[0].email}'),
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 50,
-                    //   child: ListTile(
-                    //       leading: Icon(
-                    //         Icons.pageview_rounded,
-                    //       ),
-                    //       title: Transform.translate(
-                    //         offset: Offset(-16, 0),
-                    //         child: Text('ID:0531568'),
-                    //       )),
-                    // ),
+                    
                     SizedBox(
                       height: 50,
                       child: ListTile(
@@ -113,7 +94,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             color: Color.fromRGBO(230, 92, 0, 100)),
                         title: Transform.translate(
                           offset: Offset(-16, 0),
-                          child: Text('${getStudent.phoneNo}'),
+                          child: Text('${widget.student[0].phoneNo}'),
                         ),
                       ),
                     ),
@@ -123,7 +104,7 @@ class _StudentProfileState extends State<StudentProfile> {
             ),
           ),
         ),
-      ),
+      // ),
       floatingActionButton: FloatingActionButton.extended(
           heroTag: null,
           onPressed: () => Navigator.pop(context),

@@ -123,13 +123,8 @@ class _tutor_requestState extends State<tutor_request> {
   String subjectValue = '';
   String classValue = '';
   TextEditingController salaryController = TextEditingController();
- 
-
- 
   String response_success = "";
 
- 
-  // time val
   TimeOfDay _time = TimeOfDay(hour: 0, minute: 00);
   void _selectTime() async {
     final TimeOfDay newTime = await showTimePicker(
@@ -142,8 +137,6 @@ class _tutor_requestState extends State<tutor_request> {
       });
     }
   }
-  String time= '3:00';
-
    addTutorRequest() async {
      var result = await http_post("add-tutorRequest", {
       "category": categoryValue,
@@ -151,7 +144,7 @@ class _tutor_requestState extends State<tutor_request> {
       "city": cityValue,
       "subject": subjectValue,
       "studentClass": classValue,
-      "time": time,
+      "time": _time.format(context),
       "salary": salaryController.text,
       "studentEmail":  widget.student[0].email,
     });
@@ -167,14 +160,13 @@ class _tutor_requestState extends State<tutor_request> {
     }else{
     Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
     }
-
-
    }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[200],
         title: Column(
           children: <Widget>[
             Text(

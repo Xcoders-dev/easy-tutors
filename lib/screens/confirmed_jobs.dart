@@ -1,4 +1,7 @@
+import 'package:easy_tutor/model/student.dart';
+import 'package:easy_tutor/model/tutionRequest.dart';
 import 'package:easy_tutor/model/tutor.dart';
+import 'package:easy_tutor/modules/http.dart';
 import 'package:flutter/material.dart';
 
 class Confirmed_jobs extends StatefulWidget {
@@ -9,62 +12,113 @@ class Confirmed_jobs extends StatefulWidget {
 }
 
 class _Confirmed_jobsState extends State<Confirmed_jobs> {
+  List<TutionRequest> getTuitionReq = [];
+  List<Student> getStudInfo = [];
+  String status_text = "";
+
+  Future<void> showConfirmedTuitionReq()async{
+    var result = await http_post('showConfirmedTuitionReq',{
+      "tutorEmail": widget.tutor[0].email,
+    });
+    if(result.data['success'] != null)
+    {
+      setState(() {
+        getTuitionReq.clear();
+        getStudInfo.clear();
+        var in_Req = result.data['success'] as List<dynamic>;
+        in_Req.forEach((in_Req){
+          getTuitionReq.add(TutionRequest(
+            in_Req['id'],
+            in_Req['category'],
+            in_Req['daysWeekly'],
+            in_Req['city'],
+            in_Req['subject'],
+            in_Req['salary'],
+            in_Req['studentEmail'],
+          ));
+          getStudInfo.add(Student(
+            in_Req['FName'],
+            in_Req['LName'],
+          ));
+        });
+      });
+      print(getTuitionReq.length);
+      print(getTuitionReq[0].studentEmail);
+      print(getStudInfo.length);
+      print(getStudInfo[0].firstName);
+
+    }else if(result.data["status"] != null){
+      setState(() {
+        status_text= result.data["status"];
+        getTuitionReq.clear();
+        getStudInfo.clear();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.tutor[0].email);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[200],
         title: Column(
           children: <Widget>[
             Text(
               'Confirmed Jobs',
               style: TextStyle(fontSize: 20),
             ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(
+                status_text,
+                style: TextStyle(fontSize: 12,),
+              ),
+            ),
           ],
         ),
         centerTitle: true,
       ),
-      body: ListView.separated(
-          itemBuilder: (context, index) => Card(
-                elevation: 2.0,
-                child: ListTile(
-                  title: Text('Student name: Abdul Hamid'),
+      body: RefreshIndicator(
+        onRefresh: showConfirmedTuitionReq,
+        child:
+        ListView.separated(
+            itemBuilder: (context, index) => Card(
+              elevation: 2.0,
+              child: ListTile(
+                  title: Text('Student Name: ${getStudInfo[getStudInfo.length-(index+1)].firstName} ${getStudInfo[getStudInfo.length-(index+1)].lastName}'),
                   subtitle: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 2.0, top: 4.0, bottom: 2.0, right: 2.0),
-                        child: Text('Job ID: 5023'),
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text('Category: ${getTuitionReq[getTuitionReq.length-(index+1)].category}'),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text('Category: Face to face'),
+                        child: Text('Category: ${getTuitionReq[getTuitionReq.length-(index+1)].city}'),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text('City: Johor Bahru'),
+                        child: Text('Salary: ${getTuitionReq[getTuitionReq.length-(index+1)].salary}'),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text('Salary: RM300'),
+                        child: Text('Days per week: ${getTuitionReq[getTuitionReq.length-(index+1)].daysWeekly}'),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: Text('Time: 7:00 - 9:00'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text('Subject: Human Biology'),
+                        child: Text('Subject: ${getTuitionReq[getTuitionReq.length-(index+1)].subject}'),
                       ),
                     ],
                   ),
-                  //onTap: () {}
-                ),
+                //onTap: () {}
               ),
-          separatorBuilder: (context, index) => Divider(),
-          itemCount: 5),
+            ),
+            separatorBuilder: (context, index) => Divider(),
+            itemCount: getTuitionReq.length),
+      ),
     );
   }
 }

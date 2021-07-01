@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/', Router);
 
-app.listen(8020);
+app.listen(process.env.PORT);
 // /*####################################################
 //  ********* Defining Routes (Restful APIs)************
 //  ####################################################*/
@@ -45,9 +45,9 @@ app.listen(8020);
 
 // app.post('/login-user', async(req, res, next)=>{
 //   /* const name = req.body.name;
- 
+
 //    await db.query("INSERT INTO users (name) VALUES (?);", [name]);
- 
+
 //    res.json({status:"OK"});
 //    next();*/
 //    console.log("Api-loginUser reached");

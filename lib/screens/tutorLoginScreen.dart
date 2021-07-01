@@ -29,37 +29,36 @@ class TutorLoginScreenState extends State<TutorLoginScreen>{
     });
     if(result.data['success'] != null) {
       setState(() {
-        response_success.clear() ;
+        response_success.clear();
         var in_users = result.data['success'] as List<dynamic>;
         in_users.forEach((in_user){
-          response_success.add(
-            Tutor(
+          response_success.add(Tutor(
               in_user['FName'],in_user['LName'],in_user['email'],
-            in_user['password'],in_user['P_Num'],in_user['gender'],
-            in_user['pref_city'],in_user['expected_Sal'],in_user['about_me'],
-          )
-          );
+            in_user['password'],in_user['P_Num'],in_user['about_me'],
+            in_user['avail_time_from'],in_user['avail_time_to'],
+            in_user['expected_Sal'],in_user['pref_city'],
+          ));
         });
       });
+       Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => tutor_dashboard(response_success) ,
+          ));
+
       print(response_success[0].email);
     }
-    if(result.data['status'] != null){
+    else if(result.data['status'] != null){
       setState((){
         response_err = result.data['status'];
       });
+      Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
       print(response_err);
     }
-    if(response_success.length>0){
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => tutor_dashboard(response_success)));
-    }
-    else if(response_err !=""){
-    Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
-    }else{
+    else{
       Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
     }
+    result = null;
   }
 
   @override

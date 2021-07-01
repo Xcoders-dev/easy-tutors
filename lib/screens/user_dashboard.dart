@@ -1,19 +1,16 @@
 import 'package:easy_tutor/model/student.dart';
 import 'package:easy_tutor/screens/Tutor_request.dart';
-import 'package:easy_tutor/screens/about_1.dart';
 import 'package:easy_tutor/screens/about_developer.dart';
 import 'package:easy_tutor/screens/appointTutor.dart';
 import 'package:easy_tutor/screens/confirmed_tutor_request.dart';
-import 'package:easy_tutor/screens/guardianLoginScreen.dart';
+import 'package:easy_tutor/screens/ManageTutionRequest.dart';
 import 'package:easy_tutor/screens/student_profile.dart';
 import 'package:easy_tutor/screens/student_profile_edit.dart';
-import 'package:easy_tutor/screens/tutor_dashboard.dart';
-import 'package:easy_tutor/screens/tutor_profile.dart';
 import 'package:flutter/material.dart';
 
 class user_dashboard extends StatefulWidget {
   @override
-  final List <Student> student;
+  List <Student> student;
   user_dashboard([this.student]);
 
   _user_dashboardState createState() => _user_dashboardState();
@@ -27,19 +24,8 @@ class _user_dashboardState extends State<user_dashboard> {
       backgroundColor: Colors.blue[50],
       appBar: AppBar(
         backgroundColor: Colors.blue[200],
-        // actions: [
-        //   Container(
-        //     child: IconButton(
-        //       icon: Icon(Icons.exit_to_app),
-        //       onPressed: () {
-        //         Navigator.push(
-        //           context,
-        //           MaterialPageRoute(builder: (context) => tutor_dashboard()),
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // ],
+        title: Text('Dashboard', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),),
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: Card(
@@ -58,12 +44,11 @@ class _user_dashboardState extends State<user_dashboard> {
                       Container(
                         width: 80,
                         height: 80,
-                        alignment: Alignment.center,
+                        alignment: Alignment.topLeft,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://googleflutter.com/sample_image.jpg'),
+                              image: AssetImage("images/user.png"),
                               fit: BoxFit.fill),
                         ),
                       ),
@@ -96,15 +81,14 @@ class _user_dashboardState extends State<user_dashboard> {
                   ),
                 ),
               ),
-              buildListTiledrawer(
-                  "Notification", Icons.notifications, context, 1),
+
               buildListTiledrawer(
                   "Tutor Request", Icons.group_add_sharp, context, 2),
               buildListTiledrawer("View Profile", Icons.edit_sharp, context, 3),
               buildListTiledrawer("Edit Profile", Icons.edit_sharp, context, 4),
               buildListTiledrawer(
                   "About", Icons.info_outline_rounded, context, 5),
-              
+
               FractionallySizedBox(
                 widthFactor: 0.4,
                 child: ElevatedButton(
@@ -116,10 +100,8 @@ class _user_dashboardState extends State<user_dashboard> {
                         borderRadius: BorderRadius.all(Radius.circular(5))),
                   ),
                   child: Text('Sign Out'),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GuardianLoginScreen())),
+                  onPressed: () => Navigator.popUntil(context,
+                      ModalRoute.withName('ULogType')),
                 ),
               )
             ],
@@ -128,146 +110,167 @@ class _user_dashboardState extends State<user_dashboard> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                padding: EdgeInsets.all(6.0),
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Dashboard",
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: 100,
-                      padding: EdgeInsets.all(6.0),
-                      child: TextButton(
-                          child: Text("Appoint".toUpperCase(),
-                              style: TextStyle(fontSize: 12)),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue[50]),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.all(0)),
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.blue),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.blue)))),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AppointTutor(widget.student)),
-                            );
-                          }),
-                    ),
-                    Container(
-                      width: 100,
-                      padding: EdgeInsets.all(6.0),
-                      child: TextButton(
-                          child: Text("Confirmed".toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 12,
-                              )),
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.blue[50]),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  EdgeInsets.all(0)),
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.blue),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                                side: BorderSide(color: Colors.blue),
-                              ))),
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Confiremd_tutor_request(widget.student)))),
-                    ),
-                  ],
-                ),
-              ),
               Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  child: Text(
-                    "NoticeBoard",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                padding: const EdgeInsets.only(top: 30),
+                child: Text(
+                  "Welcome to Easy Tuition",
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo[900],
                   ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(6.0),
-                child: Card(
-                  child: SizedBox(
-                    height: 180,
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: Icon(Icons.message),
-                          title: Transform.translate(
-                            offset: Offset(-16, 0),
-                            child: Text('Nur Hanifa rated you'),
-                          ),
+
+              SizedBox(
+                height: 60.0,
+              ),
+              Image(
+                image: AssetImage("images/logo.png"),
+                width: 350.0,
+                height: 200.0,
+                alignment: Alignment.center,
+              ),
+
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 5),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
+
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
-                        ListTile(
-                          leading: Icon(Icons.message),
-                          title: Transform.translate(
-                            offset: Offset(-16, 0),
-                            child: Text('Ayman wants to join'),
+                        padding: EdgeInsets.all(0.0),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => manageTutionRequest(widget.student)),
+                          );
+                        },
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF002FFF), Color(0xFF74D0F7)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.message),
-                          title: Transform.translate(
-                            offset: Offset(-16, 0),
-                            child: Text('Azman Liked you'),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: 350,
+                              maxHeight: 55,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text("Manage  Requests".toUpperCase(),
+                                style: TextStyle(fontSize: 21, color: Colors.white)),
                           ),
+
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildCardDashboard(Icons.thumb_up, "1005", "Total Applied"),
-                    buildCardDashboard(Icons.work, "2", "Live Tution Jobs"),
-                  ],
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
+
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: EdgeInsets.all(0.0),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AppointTutor(widget.student)),
+                          );
+                        },
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF002FFF), Color(0xFF74D0F7)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: 350,
+                              maxHeight: 55,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text("Appoint".toUpperCase(),
+                                style: TextStyle(fontSize: 21, color: Colors.white)),
+                          ),
+
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildCardDashboard(
-                        Icons.person_outline_outlined, "10", "Happy Students"),
-                    buildCardDashboard(Icons.rate_review_outlined, "4.75/5",
-                        "Average Tutor Rating"),
-                  ],
+
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget> [
+
+                      RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: EdgeInsets.all(0.0),
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Confiremd_tutor_request(widget.student))),
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF002FFF), Color(0xFF74D0F7)],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Container(
+                            constraints: BoxConstraints(
+                              maxWidth: 350,
+                              maxHeight: 55,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text("Confirmed".toUpperCase(),
+                                style: TextStyle(fontSize: 21, color: Colors.white)),
+                          ),
+
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
             ],
           ),
         ),
@@ -275,37 +278,12 @@ class _user_dashboardState extends State<user_dashboard> {
     );
   }
 
-  Card buildCardDashboard(icon, first, second) {
-    return Card(
-      margin: EdgeInsets.all(10.0),
-      child: Container(
-        height: 60,
-        width: 140,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                Icon(icon),
-                Text(
-                  '  ' + first,
-                  style: TextStyle(fontSize: 15),
-                ),
-              ],
-            ),
-            Text("    " + second, style: TextStyle(fontSize: 10))
-          ],
-        ),
-      ),
-    );
-  }
 
   ListTile buildListTiledrawer(text, icon, BuildContext context, num) {
     return ListTile(
         leading: Icon(icon),
         title: Text(text),
-        onTap: () {
+        onTap: () async {
           if (num == 2) {
             Navigator.push(
               context,
@@ -317,12 +295,16 @@ class _user_dashboardState extends State<user_dashboard> {
               context,
               MaterialPageRoute(builder: (context) => StudentProfile(widget.student)),
             );
+
           }
           if (num == 4) {
-           Navigator.push(
+            Student returnData = await Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => EditStudentProfile(widget.student)),
             );
+            if(returnData != null){
+              setState(() => widget.student[0]  = returnData);
+            }
           }
           if (num == 5) {
             Navigator.push(

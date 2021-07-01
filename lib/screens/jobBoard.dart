@@ -4,6 +4,7 @@ import 'package:easy_tutor/model/tutor.dart';
 import 'package:easy_tutor/modules/http.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_tutor/screens/sievePage.dart';
+import 'package:toast/toast.dart';
 
 class JobBoardScreen extends StatefulWidget {
   List <Tutor> tutor;
@@ -15,13 +16,22 @@ class JobBoardScreen extends StatefulWidget {
 class _JobBoardScreenState extends State<JobBoardScreen> {
   List<TutionRequest> getTuitionReq = [];
   List<Student> getStudInfo = [];
+  List in_ApplyStatusReq=[];
+  List buttonName =[];
+  List<Color>buttonClr =[];
+  String studentEmail ="";
+  int tuitionID;
+
   Future<void> showTuitionReq()async{
-    var result = await http_get('showTuitionReq');
-    if(result.data['success'] != null)
+    var result = await http_post('showTuitionReq',{
+      "email": widget.tutor[0].email,
+    });
+    if(result.data['success_1'] != null)
     {
       setState(() {
         getTuitionReq.clear();
-        var in_Req = result.data['success'] as List<dynamic>;
+        getStudInfo.clear();
+        var in_Req = result.data['success_1'] as List<dynamic>;
         in_Req.forEach((in_Req){
           getTuitionReq.add(TutionRequest(
             in_Req['id'],
@@ -38,8 +48,53 @@ class _JobBoardScreenState extends State<JobBoardScreen> {
           ));
         });
       });
+      print(getTuitionReq.length);
       print(getTuitionReq[0].studentEmail);
+      print(getStudInfo.length);
       print(getStudInfo[0].firstName);
+    }
+     in_ApplyStatusReq = result.data['success_2'] as List<dynamic>;
+     buttonName.clear();
+     in_ApplyStatusReq.forEach((in_ApplyStatusReq)=>{
+       if(in_ApplyStatusReq == 0){
+         setState(()=>{
+          buttonName.add("Apply"),
+         }),
+     }else{
+         setState(()=>{
+           buttonName.add("Applied"),
+         }),
+       }
+     });
+     buttonClr.clear();
+    in_ApplyStatusReq.forEach((in_ApplyStatusReq)=>{
+      if(in_ApplyStatusReq == 0){
+        setState(()=>{
+          buttonClr.add(Colors.lightBlue) ,
+        }),
+      }else{
+        setState(()=>{
+          buttonClr.add(Colors.pink),
+        }),
+      }
+    });
+
+      print(in_ApplyStatusReq);
+      print(buttonName);
+  }
+    void applyTuitionReq()async{
+    var result = await http_post('applyTuitionReq', {
+      "studEmail": studentEmail,
+      "tutorEmail": widget.tutor[0].email,
+      "tuitionReq_ID": tuitionID,
+    });
+    if(result.data['success'] != null){
+      Toast.show(result.data["success"],context,duration: 3,textColor: Colors.lightGreen);
+      showTuitionReq();
+    }else if(result.data["status"]!=null){
+      Toast.show(result.data["status"],context,duration: 3,textColor: Colors.redAccent);
+    }else{
+      Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
     }
   }
   @override
@@ -47,6 +102,7 @@ class _JobBoardScreenState extends State<JobBoardScreen> {
     print(widget.tutor[0].email);
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.blue[200],
           title: Column(
             children: <Widget>[
               Text(
@@ -95,12 +151,21 @@ class _JobBoardScreenState extends State<JobBoardScreen> {
                       ],
                     ),
                     trailing: FlatButton(
-                      onPressed: () {},
+                      onPressed:()=>{
+                        if(in_ApplyStatusReq[index] == 0){
+                          studentEmail=getTuitionReq[index].studentEmail,
+                          tuitionID= getTuitionReq[index].id,
+                          applyTuitionReq(),
+                        }else{
+                        Toast.show("You have already applied for this job",context,duration: 3,),
+                        }
+
+                      },
                       child: Text(
-                        'Apply',
+                        buttonName[index],
                         style: TextStyle(color: Colors.white),
                       ),
-                      color: Colors.blue,
+                      color: buttonClr[index] ,
                     )
                   //onTap: () {}
                 ),
@@ -115,11 +180,10 @@ class _JobBoardScreenState extends State<JobBoardScreen> {
             FloatingActionButton.extended(
               heroTag: null,
               backgroundColor: Colors.indigo,
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SieveScreen())),
-              label: Text("Filter"),
+              onPressed: () => Navigator.pop(context),
+              label: Text("Back"),
               icon: Icon(
-                Icons.search,
+                Icons.west
               ),
             ),
             // FloatingActionButton.extended(

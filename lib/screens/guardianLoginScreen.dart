@@ -36,25 +36,23 @@ class GuardianLoginScreenState extends State<GuardianLoginScreen> {
           ));
         });
       });
-      print(response_success[0].email);
-    }
-    if(result.data['status'] != null){
-      setState((){
-        response_err = result.data['status'];
-      });
-      print(response_err);
-    }
-    if(response_success.length != 0){
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => user_dashboard(response_success)));
+      print(response_success[0].email);
     }
-    else if(response_err !=""){
-    Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
-    }else{
+    else if(result.data['status'] != null){
+      setState((){
+        response_err = result.data['status'];
+      });
+      Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
+      print(response_err);
+    }
+    else{
       Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
     }
+    result = null;
   }
 
   Widget build(BuildContext context) {

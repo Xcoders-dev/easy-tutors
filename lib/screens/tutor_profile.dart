@@ -1,66 +1,62 @@
 import 'package:easy_tutor/model/tutor.dart';
-import 'package:easy_tutor/modules/http.dart';
-import 'package:easy_tutor/screens/tutor_profile_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 class tutorProfile extends StatefulWidget {
-  List<Tutor> tutor;
+  Tutor tutor;
   tutorProfile([this.tutor]);
   @override
   _tutorProfileState createState() => _tutorProfileState();
 }
 
 class _tutorProfileState extends State<tutorProfile> {
-  Tutor getTutor;
+  // Tutor getTutor;
 
-  Future<void> showTutor() async {
-    var result = await http_get('tutor-profile/${widget.tutor[0].email}');
-    if (result.data['tutor'] != null) {
-      setState(() {
-        var in_Req = result.data['tutor'][0];
-
-        getTutor = Tutor(
-          in_Req['FName'],
-          in_Req['LName'],
-          in_Req['email'],
-          in_Req['password'],
-          in_Req['P_Num'],
-          in_Req['gender'],
-          in_Req['pref_city'],
-          in_Req['expected_Sal'],
-          in_Req['about_me'],
-          in_Req['avail_time_from'],
-          in_Req['avail_time_to'],
-        );
-        print(in_Req);
-        print(getTutor);
-      });
-      print('Data');
-    }
-  }
+  // Future<void> showTutor() async {
+  //   var result = await http_get('tutor-profile/${widget.tutor[0].email}');
+  //   if (result.data['tutor'] != null) {
+  //     setState(() {
+  //       var in_Req = result.data['tutor'][0];
+  //
+  //       getTutor = Tutor(
+  //         in_Req['FName'],
+  //         in_Req['LName'],
+  //         in_Req['email'],
+  //         in_Req['password'],
+  //         in_Req['P_Num'],
+  //         in_Req['gender'],
+  //         in_Req['pref_city'],
+  //         in_Req['expected_Sal'],
+  //         in_Req['about_me'],
+  //         in_Req['avail_time_from'],
+  //         in_Req['avail_time_to'],
+  //       );
+  //       print(in_Req);
+  //       print(getTutor);
+  //     });
+  //     print('Data');
+  //   }
+  // }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("initState");
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   print("WidgetsBinding");
-    // });
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      showTutor();
-    });
-  }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   print("initState");
+  //   // WidgetsBinding.instance.addPostFrameCallback((_) {
+  //   //   print("WidgetsBinding");
+  //   // });
+  //   SchedulerBinding.instance.addPostFrameCallback((_) {
+  //     showTutor();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     //print(widget.tutor[0].email);
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: showTutor,
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
           child: Container(
             color: Colors.blue[50],
             child: Column(
@@ -81,8 +77,7 @@ class _tutorProfileState extends State<tutorProfile> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://googleflutter.com/sample_image.jpg'),
+                                image: AssetImage("images/user.png"),
                                 fit: BoxFit.fill),
                           ),
                         ),
@@ -96,7 +91,7 @@ class _tutorProfileState extends State<tutorProfile> {
                                   title: Transform.translate(
                                     offset: Offset(-16, 0),
                                     child: Text(
-                                        '${getTutor.firstName} ${getTutor.lastName}'),
+                                        '${widget.tutor.firstName} ${widget.tutor.lastName}'),
                                   )),
                             ),
                             SizedBox(
@@ -105,7 +100,7 @@ class _tutorProfileState extends State<tutorProfile> {
                                 leading: Icon(Icons.email_outlined),
                                 title: Transform.translate(
                                   offset: Offset(-16, 0),
-                                  child: Text('${getTutor.email}'),
+                                  child: Text('${widget.tutor.email}'),
                                 ),
                               ),
                             ),
@@ -117,7 +112,7 @@ class _tutorProfileState extends State<tutorProfile> {
                                   ),
                                   title: Transform.translate(
                                     offset: Offset(-16, 0),
-                                    child: Text('${getTutor.phoneNo}'),
+                                    child: Text('${widget.tutor.phoneNo}'),
                                   )),
                             ),
                           ],
@@ -128,6 +123,7 @@ class _tutorProfileState extends State<tutorProfile> {
                 ),
                 Card(
                   child: Container(
+                    height: 300,
                     color: Colors.blue[50],
                     padding: EdgeInsets.all(10.0),
                     child: Column(
@@ -140,7 +136,7 @@ class _tutorProfileState extends State<tutorProfile> {
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
-                        Text("${getTutor.aboutMe}"),
+                        Text("${widget.tutor.aboutMe}"),
                       ],
                     ),
                   ),
@@ -161,13 +157,13 @@ class _tutorProfileState extends State<tutorProfile> {
                         Column(
                           children: [
                             availablity("Avilable Time From    :",
-                                '${getTutor.availTimeFrom}'),
+                                '${widget.tutor.availTimeFrom}'),
                             availablity("Avilable Time To      :",
-                                '${getTutor.availTimeTo}'),
+                                '${widget.tutor.availTimeTo}'),
                             availablity("Expected Salary        :",
-                                '${getTutor.expectedSal}'),
+                                '${widget.tutor.expectedSal}'),
                             availablity("Prefered Location      :",
-                                '${getTutor.prefCity}'),
+                                '${widget.tutor.prefLocation}'),
                           ],
                         ),
                       ],
@@ -178,7 +174,7 @@ class _tutorProfileState extends State<tutorProfile> {
             ),
           ),
         ),
-      ),
+
     );
   }
 

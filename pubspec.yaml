@@ -27,6 +27,7 @@ dependencies:
   email_validator: '^1.0.6'
   toast: ^0.1.5
   phone_number: ^0.11.0
+  url_launcher: ^6.0.7
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -46,6 +47,7 @@ flutter:
 
   assets:
     - images/logo.png
+    - images/user.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
