@@ -46,7 +46,7 @@ class _AboutState extends State<About> {
       appBar: AppBar(
         title: Text("About Us"),
         centerTitle: true,
-        backgroundColor: Colors.indigo[900],
+        backgroundColor: Colors.blue[200],
         elevation: 0.0,
       ),
       body: Padding(

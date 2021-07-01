@@ -111,6 +111,7 @@ class MainScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
+                        settings: RouteSettings(name:"ULogType"),
                         builder: (context) => UserLoginTypeScreen()),
                   );
                 },

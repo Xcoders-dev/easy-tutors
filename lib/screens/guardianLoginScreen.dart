@@ -1,11 +1,60 @@
+import 'package:easy_tutor/model/student.dart';
+import 'package:easy_tutor/modules/http.dart';
 import 'package:easy_tutor/screens/user_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_tutor/Screens/guardianRegistrationScreen.dart';
+import 'package:toast/toast.dart';
 
-class GuardianLoginScreen extends StatelessWidget {
-  static const String idScreen = "LoginGuardian";
-
+class GuardianLoginScreen extends StatefulWidget {
   @override
+  // ignore: override_on_non_overriding_member
+  State<StatefulWidget> createState() {
+    return GuardianLoginScreenState();
+  }
+}
+class GuardianLoginScreenState extends State<GuardianLoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+
+  String response_err = "";
+  List<Student>response_success = [];
+
+  // ignore: non_constant_identifier_names
+  Future <void> LoginGuardian() async {
+    var result = await http_post("login-guardian", {
+      "email": emailController.text,
+      "password": passController.text,
+    });
+    if(result.data['success'] != null) {
+      setState(() {
+        response_success.clear() ;
+        var in_users = result.data['success'] as List<dynamic>;
+        in_users.forEach((in_user){
+          response_success.add(Student(
+              in_user['FName'],in_user['LName'],in_user['email'],
+            in_user['password'],in_user['P_Num'],
+          ));
+        });
+      });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => user_dashboard(response_success)));
+      print(response_success[0].email);
+    }
+    else if(result.data['status'] != null){
+      setState((){
+        response_err = result.data['status'];
+      });
+      Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
+      print(response_err);
+    }
+    else{
+      Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
+    }
+    result = null;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlue[100],
@@ -42,6 +91,7 @@ class GuardianLoginScreen extends StatelessWidget {
                       height: 1.0,
                     ),
                     TextField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "Email",
@@ -61,6 +111,7 @@ class GuardianLoginScreen extends StatelessWidget {
                       height: 1.0,
                     ),
                     TextField(
+                      controller: passController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Password",
@@ -96,10 +147,15 @@ class GuardianLoginScreen extends StatelessWidget {
                         shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(23.0),
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => user_dashboard())))
+                        onPressed:()=>{
+                          if((emailController.text == "")||(passController.text == ""))
+                          {
+                            Toast.show("Please complete the form", context,duration: 3,textColor: Colors.redAccent),
+                          }else {
+                            LoginGuardian(),
+                          }
+                        }
+                                )
                   ],
                 ),
               ),

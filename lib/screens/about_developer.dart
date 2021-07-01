@@ -96,7 +96,7 @@ Widget sadman = Card(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
-          "Sadman Rahman",
+          "Shadman Rahman",
           style: TextStyle(
             fontSize: 28,
             color: Colors.blueGrey[800],

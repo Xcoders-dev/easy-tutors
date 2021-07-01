@@ -1,9 +1,60 @@
+import 'package:easy_tutor/modules/http.dart';
 import 'package:flutter/material.dart';
-
+import 'package:email_validator/email_validator.dart';
 import 'tutorLoginScreen.dart';
+import 'package:toast/toast.dart';
+import 'package:flutter/services.dart';
 
-class TutorRegistrationScreen extends StatelessWidget {
-  static const String idScreen = "registerTutor";
+class TutorRegistrationScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return TutorRegistrationScreenState();
+  }
+}
+
+class TutorRegistrationScreenState extends State<TutorRegistrationScreen> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pwdController = TextEditingController();
+  TextEditingController conf_pwdController = TextEditingController();
+  TextEditingController FNameController = TextEditingController();
+  TextEditingController LNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  String response_err = "";
+  String response_success = "";
+
+  registerTutor() async {
+    var result = await http_post("register-tutor", {
+      "email": emailController.text,
+      "password": pwdController.text,
+      "conf_pass": conf_pwdController.text,
+      "FName": FNameController.text,
+      "LName": LNameController.text,
+      "phone_Num": phoneController.text,
+    });
+    if(result.data['confirm'] != null) {
+      setState(() {
+        response_success = result.data['confirm'];
+      });
+    }
+     if(result.data['status'] != null){
+      setState((){
+        print("setstate called");
+        response_err = result.data['status'];
+      });
+    }
+    if(response_success!=""){
+      Toast.show(response_success,context,duration: 3,textColor: Colors.lightGreen);
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => TutorLoginScreen()));
+    }else if(response_err!=""){
+    Toast.show(response_err,context,duration: 3,textColor: Colors.redAccent);
+    }else{
+    Toast.show("Unresolved error",context,duration: 3,textColor: Colors.redAccent);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +92,11 @@ class TutorRegistrationScreen extends StatelessWidget {
                     SizedBox(
                       height: 0.50,
                     ),
-                    TextField(
-                      keyboardType: TextInputType.text,
+                    TextFormField(
+                      controller: FNameController,
+                      keyboardType: TextInputType.name,
                       decoration: InputDecoration(
-                        labelText: "Name",
+                        labelText: "First Name",
                         labelStyle: TextStyle(
                           fontSize: 14.0,
                           fontFamily: "Brand Bold",
@@ -55,12 +107,35 @@ class TutorRegistrationScreen extends StatelessWidget {
                         ),
                       ),
                       style: TextStyle(fontSize: 14.0),
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-z,A-Z]+')),],
+                    ),
+
+                    SizedBox(
+                      height: 0.50,
+                    ),
+                    TextFormField(
+                      controller: LNameController,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        labelText: "Last Name",
+                        labelStyle: TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: "Brand Bold",
+                        ),
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 10.0,
+                        ),
+                      ),
+                      style: TextStyle(fontSize: 14.0),
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[a-z,A-Z]+')),],
                     ),
 
                     SizedBox(
                       height: 1.0,
                     ),
                     TextField(
+                      controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "Email",
@@ -79,7 +154,8 @@ class TutorRegistrationScreen extends StatelessWidget {
                     SizedBox(
                       height: 1.0,
                     ),
-                    TextField(
+                    TextFormField(
+                      controller: phoneController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         labelText: "Phone",
@@ -93,12 +169,13 @@ class TutorRegistrationScreen extends StatelessWidget {
                         ),
                       ),
                       style: TextStyle(fontSize: 14.0),
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9]+')),],
                     ),
-
                     SizedBox(
                       height: 1.0,
                     ),
                     TextField(
+                      controller: pwdController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Password",
@@ -118,6 +195,7 @@ class TutorRegistrationScreen extends StatelessWidget {
                       height: 1.0,
                     ),
                     TextField(
+                      controller: conf_pwdController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: "Confirm Password",
@@ -132,7 +210,6 @@ class TutorRegistrationScreen extends StatelessWidget {
                       ),
                       style: TextStyle(fontSize: 14.0),
                     ),
-
                     SizedBox(
                       height: 25.0,
                     ),
@@ -153,10 +230,30 @@ class TutorRegistrationScreen extends StatelessWidget {
                         shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(23.0),
                         ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TutorLoginScreen())))
+                        onPressed: ()=>{
+                          if((FNameController.text == "")||(LNameController.text == "")||
+                            (emailController.text == "")||(pwdController.text == "")||
+                            (phoneController.text == "")){
+                            //Toast notific
+                            Toast.show("Please complete the form", context,duration: 3,textColor: Colors.redAccent),
+                          }else if(pwdController.text != conf_pwdController.text){
+                            //Toast notific
+                            Toast.show("Passwords do not match", context,duration: 3,textColor: Colors.redAccent),
+                          }else if(pwdController.text.length < 8){
+                            //Toast notific
+                            Toast.show("Password length should be at least 8 characters or more", context,duration: 3,textColor: Colors.redAccent),
+                          }else if(!(EmailValidator.validate(emailController.text))){
+                            Toast.show("Email address invalid", context,duration: 3,textColor: Colors.redAccent),
+                          }else if(phoneController.text.length < 11||phoneController.text.length > 11){
+                            Toast.show("Invalid phone number", context,duration: 3,textColor: Colors.redAccent),
+                          }else if((phoneController.text.contains("0",0)&&
+                                    phoneController.text.contains("1",1)&&
+                                    phoneController.text.contains("1",2)) == false){
+                            Toast.show("Invalid phone number\nValid format: 01123455432 ", context,duration: 3,textColor: Colors.redAccent),
+                          } else{
+                            registerTutor(),
+                          }
+                        } ),
                   ],
                 ),
               ),
