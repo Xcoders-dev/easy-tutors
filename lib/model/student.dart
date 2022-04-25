@@ -1,3 +1,4 @@
+import 'package:easy_tutor/model/tutionRequest.dart';
 
 
 class Student {
@@ -12,13 +13,14 @@ class Student {
 
   //TutionRequest request;
 
-  Student([
+  Student(
     this.firstName,
     this.lastName,
     this.email,
     this.password,
     this.phoneNo,
- ]);
+
+  );
 
   Student.copy(Student from)
       : this(from.firstName, from.lastName, from.email, from.password,

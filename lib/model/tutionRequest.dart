@@ -1,5 +1,5 @@
 class TutionRequest{
-  int id;
+  int requestID;
   String category;
   String daysWeekly;
   String city;
@@ -7,19 +7,21 @@ class TutionRequest{
   String studentClass;
   String time;
   String salary;
+
   String tutorEmail;
   String studentEmail;
+
   bool statusStudent;
   
   
 
   TutionRequest(
-    [this.id,this.category, this.daysWeekly, this.city,
-    this.subject, this.salary,this.studentEmail,this.studentClass, this.time,
-    this.tutorEmail, this.statusStudent,]
+    [this.category, this.daysWeekly, this.city,
+    this.subject, this.studentClass, this.time, this.salary,
+    this.tutorEmail, this.studentEmail, this.statusStudent,]
    );
 
-  TutionRequest.copy(TutionRequest from): this(from.id, from.category, from.daysWeekly,
+  TutionRequest.copy(TutionRequest from): this(from.category, from.daysWeekly,
    from.city, from.subject, from.studentClass, from.time, from.salary,
    from.tutorEmail, from.studentEmail, from.statusStudent,);
    

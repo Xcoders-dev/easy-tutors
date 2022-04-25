@@ -1,3 +1,4 @@
+import 'package:easy_tutor/model/tutionRequest.dart';
 
 class Tutor {
   int tutorID;
@@ -6,11 +7,15 @@ class Tutor {
   String email;
   String password;
   String phoneNo;
+  String gender;
+  String prefCity;
+  String expectedSal; 
   String aboutMe;
   String availTimeFrom;
   String availTimeTo;
-  String expectedSal;
-  String prefLocation;
+  String location;
+
+  //TutionRequest request;
 
   Tutor([
     this.firstName,
@@ -18,11 +23,13 @@ class Tutor {
     this.email,
     this.password,
     this.phoneNo,
+    this.gender,
+    this.prefCity,
+    this.expectedSal,
     this.aboutMe,
     this.availTimeFrom,
     this.availTimeTo,
-    this.expectedSal,
-    this.prefLocation,
+    this.location,
   ]);
 
   Tutor.copy(Tutor from)
@@ -32,11 +39,13 @@ class Tutor {
           from.email,
           from.password,
           from.phoneNo,
+          from.gender,
+          from.prefCity,
+          from.expectedSal,
           from.aboutMe,
           from.availTimeFrom,
           from.availTimeTo,
-          from.expectedSal,
-          from.prefLocation,
+          from.location,
         );
 
   // void setTutorRegistration(String fn, String ln, String mail, String pas, String phone) {
