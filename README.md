@@ -14,3 +14,4 @@ MD Newaz Alam (A18CS4045)
 Jamee Shahriyar (A18CS3012)
 Shadman Rahman (A18CS3032)
  Doing test
+git commit -m "REC-10 <message>"
