@@ -34,10 +34,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-
-  test-deployment:
-    runs-on: ubuntu-latest
-    steps:
+          
+          
+      # Runs a set of commands using the runners shell
       - name: Jira Development Integration
         uses: actions/checkout@v3
         
@@ -49,3 +48,6 @@ jobs:
           jira_instance: ReCreators
           client_id: amdnewaz
           client_secret: amdnewaz
+
+ 
+     
